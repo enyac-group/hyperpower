@@ -1,6 +1,6 @@
 HyperPower (Keras/TensorFlow + Spearmint)
 ===========================
-<img align="right" src="http://users.ece.cmu.edu/~dstamoul/image/Picture4.png" width="10px"/>
+<img align="right" src="http://users.ece.cmu.edu/~dstamoul/image/Picture4.png" width="100px"/>
 
 Hardware-aware hyper-parameter search for [Keras](https://keras.io/)+[TensorFlow](https://www.tensorflow.org/) neural networks
 via [Spearmint](https://github.com/HIPS/Spearmint) Bayesian optimisation.
@@ -11,12 +11,12 @@ Description
 
 Hyper-parameter optimization of neural networks (NN) has emerged as a challenging process.
 This design problem becomes more daunting if we are find the optimal (in terms of classification error)
-NN configuration that also satisfies hardware constraints, e.g., maximum inference rutime,
+NN configuration that also satisfies hardware constraints, e.g., maximum inference runtime,
 maximum GPU energy or power consumption.
 
-HyperPower employs the power of Bayesian optimization to automate the process of
+HyperPower uses the effectiveness of Bayesian optimization to employ
 hardware-constrained hyper-parameter optimization. This codebase is as basis
-in the [HyperPower](https://arxiv.org/abs/1712.02446) paper:
+in the [HyperPower paper](https://arxiv.org/abs/1712.02446):
 
 ```
 HyperPower: Power- and Memory-Constrained Hyper-Parameter Optimization for Neural Networks
@@ -50,7 +50,7 @@ General Setup
     <...>
     ```
 
-    To define hyper-parameters, we utilize a syntax similar to the one used in [CWSM](https://github.com/kuz/caffe-with-spearmint). Please notice
+    To define hyper-parameters, we instead write:
 
     ```
     <...>
@@ -62,9 +62,13 @@ General Setup
     <...>
     ```
 
+    For example, the learning rate is defined as a hyper-parameter `HYPERPARAM{"type":"INT", "token": "base_lr_base", "transform": "NEGEXP10", "min": 1, "max": 5}`,
+    with range from 1 to 5; by using a transformation key `NEGEXP10`, this corresponds to taking the negative of the exponent of these values (1, ..., 5) with base 10,
+    i.e., Spearmint will try {0.1, ..., 0.0001}. For more information on the transformations, we utilize a syntax similar to the one used in [CWSM](https://github.com/kuz/caffe-with-spearmint).
+    Please note that our syntax also requires the `token` entry to be defined, i.e., a unique name for each hyper-parameter.
+
 
 2. Generating Spearmint-compatible config file
-
 
     The provided [`gener_experiment.py`](gener_experiment.py) file parses the `experiments/myexperiment/keras_model/network_def.py`
     file and generates the config.json file directory with the definitions of the hyper-parameters exposed to Spearmint.
@@ -83,7 +87,7 @@ General Setup
 **STEP 2: Run hardware-aware Bayesian optimization**
 
 You are ready to optimize! We provide a hyper-parameter optimization example
-in [`experiments/cifar10/`](experiments/cifar10/).
-Please refer to the provided [README](experiments/cifar10/keras_model/README.md)
-file for
+in [`experiments/cifar10/`](experiments/cifar10/). You can launch your hardware-constrained
+hyper-parameter optimization with the provided [`run_tool.sh`](run_tool.sh).
+
 
