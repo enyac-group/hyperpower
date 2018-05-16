@@ -16,25 +16,26 @@ def generate_keras_executable(hyperparam_definitions, params, prefix):
     :param params: the (hyper)parameter values for the current
                    instance suggested by Spearmint
     :return:
+
+    N.B.: we utilize a syntax similar to the one used in
+    [CWSM](https://github.com/kuz/caffe-with-spearmint)
     """
 
     # transform parameters according to transformation specified in the model file
     for p in params:
         if hyperparam_definitions[p].get('transform', None) is not None:
 
-            # X<>: multiplier where <> stands for any number (examples: X10, X100, X22)
+            # X*: multiplier times a number * (e.g., X10, X100, X22)
             if hyperparam_definitions[p]['transform'][0] == 'X':
                 multiplier = int(hyperparam_definitions[p]['transform'][1:])
                 params[p][0] *= multiplier
 
-            # LOG<>: number which goes to Spearmint corresponds to log with base <> of an actual
-            #        number (example: value 2 of LOG10 corresponds to 100)
+            # LOG*: log with base of number
             if hyperparam_definitions[p]['transform'][0:3] == 'LOG':
                 base = int(hyperparam_definitions[p]['transform'][3:])
                 params[p][0] = math.log(params[p][0], base)
 
-            # NEGEXP<>: where <> is  the base, the number which goes to Spearmint is negative of the
-            #           exponent (example: value 3 with NEGEXP10 means 10^-3 and correpsonds to 0.001)
+            # NEGEXP*: negative of exponent (e.g.,: NEGEXP10 of 3 = 10^-3)
             if hyperparam_definitions[p]['transform'][0:6] == 'NEGEXP':
                 negexp = float(hyperparam_definitions[p]['transform'][6:])
                 params[p] = [negexp ** float(-params[p][0])]
