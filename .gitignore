@@ -1,0 +1,4 @@
+mongodb/*
+experiments/cifar10/mongodb/*
+experiments/cifar10/tmp/*
+experiments/cifar10/spearmint/*
