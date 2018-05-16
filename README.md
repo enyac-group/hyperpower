@@ -1,6 +1,6 @@
 HyperPower (Keras/TensorFlow + Spearmint)
 ===========================
-<img align="right" src="http://users.ece.cmu.edu/~dstamoul/image/Picture4.png" width="100px"/>
+<img align="right" src="http://users.ece.cmu.edu/~dstamoul/image/Picture4.png" width="400px"/>
 
 Hardware-aware hyper-parameter search for [Keras](https://keras.io/)+[TensorFlow](https://www.tensorflow.org/) neural networks
 via [Spearmint](https://github.com/HIPS/Spearmint) Bayesian optimisation.
